@@ -294,6 +294,35 @@ void Joint::render_transformation( const Motion::frame_data & data, const Motion
 
 }
 
+void Joint::get_bones(std::vector< std::pair< glm::vec3, glm::vec3 > > &vb, glm::vec3 base ) const
+{
+
+	if ( is_end )
+		return;
+
+	if ( !is_root )  {
+		base += this->o;
+	}
+	
+	if ( subjoints.size() == 1 ) {
+		vb.push_back(std::pair< glm::vec3, glm::vec3 >( base, base + (*subjoints.begin())->get_offset() ) );
+		(*subjoints.begin())->get_bones( vb, base );
+	} else {
+
+		glm::vec3 center = get_center();
+
+		vb.push_back( std::pair< glm::vec3, glm::vec3 >(base,center) );
+
+		std::vector< Joint * >::const_iterator it_sub;
+		for( it_sub = subjoints.begin() ; it_sub != subjoints.end() ; it_sub++ ) {
+			vb.push_back( std::pair< glm::vec3, glm::vec3 >(center,center + (*it_sub)->get_offset()) );
+			(*it_sub)->get_bones(vb,center);
+		}
+	}
+
+
+}
+
 void Joint::render_bone(glm::vec3 p1, glm::vec3 p2) {
 	
 	glBegin(GL_LINES);
@@ -318,11 +347,11 @@ void Joint::restore() {
 	}
 }
 
-glm::vec3 Joint::get_center() {
+glm::vec3 Joint::get_center() const {
 
 	glm::vec3 ret(0.0,0.0,0.0);
 
-	std::vector<Joint *>::iterator it;
+	std::vector<Joint *>::const_iterator it;
 	for( it = subjoints.begin() ; it != subjoints.end() ; it++ ) {
 		glm::vec3 next = (*it)->get_offset();
 		ret.x+= next.x;

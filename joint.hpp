@@ -89,6 +89,11 @@ class Joint {
 			o.z+=z;
 		}
 
+		void get_bones(std::vector< std::pair< glm::vec3, glm::vec3 > > &vb ) const {
+			get_bones( vb, this->o ); 
+		};
+		void get_bones(std::vector< std::pair< glm::vec3, glm::vec3 > > &vb, glm::vec3 base ) const;
+
 	private:
 
 		// OFFSET structure
@@ -128,7 +133,7 @@ class Joint {
 
 		//HELPER functions
 
-		glm::vec3 get_center();
+		glm::vec3 get_center() const;
 
 		// Render a a line between p1 and p2
 		void render_bone(glm::vec3 p1, glm::vec3 p2); 
