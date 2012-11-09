@@ -11,6 +11,7 @@
 #include "motion.hpp"
 #include "camera.hpp"
 #include "model.hpp"
+#include "sparsematrixoperations.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -98,6 +99,7 @@ void keyInput(unsigned char key, int x, int y) {
 			fprintf(fp,"MOTION\n");
 			mt.print(fp);
 			fclose(fp);
+			SparseMatrixOperations::matrix_s(root,mdl);
 			break;
 		case 'f':
 			show_fps=true;

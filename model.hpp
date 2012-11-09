@@ -1,6 +1,9 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+#ifndef _MODEL_
+  #define _MODEL_
+
 class Model {
 
 	public: 
@@ -55,3 +58,5 @@ class Model {
 		// Calculate the scale to be used 
 		float calculateScale();
 };
+
+#endif
