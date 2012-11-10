@@ -7,17 +7,15 @@
 
 
 
+#include "sparsematrixoperations.hpp"
 #include "joint.hpp"
 #include "motion.hpp"
 #include "camera.hpp"
 #include "model.hpp"
-#include "sparsematrixoperations.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
-
-#include <glm/glm.hpp>
 
 
 #define EXIT_ERROR_STATUS -1
@@ -47,7 +45,7 @@ static std::vector< Motion::frame_data >::const_iterator current_frame_it ;
 
 
 // Sparse matrices
-SparseMatrixOperations::SparseMatrixS * m_s = 0;
+SparseMatrixOperations::SparseMatrixF * m_s = 0;
 
 
 
