@@ -37,7 +37,6 @@
 #define PROJECTIVE_OFFSET 50.0
 
 using namespace std;
-
 // Global vectors of vertex and faces
 std::vector< glm::vec3 > v;
 std::vector< glm::vec3 > vn;
@@ -45,6 +44,10 @@ std::vector< std::vector< std::pair<int,int> > > f;
 
 // Point to the frame currently being rendered
 static std::vector< Motion::frame_data >::const_iterator current_frame_it ;
+
+
+// Sparse matrices
+SparseMatrixOperations::SparseMatrixS * m_s = 0;
 
 
 
@@ -99,7 +102,11 @@ void keyInput(unsigned char key, int x, int y) {
 			fprintf(fp,"MOTION\n");
 			mt.print(fp);
 			fclose(fp);
-			SparseMatrixOperations::matrix_s(root,mdl);
+			if (  m_s == 0   )
+				m_s = SparseMatrixOperations::matrix_s(root,mdl);
+
+			SparseMatrixOperations::print_out(m_s,"S.out");
+
 			break;
 		case 'f':
 			show_fps=true;

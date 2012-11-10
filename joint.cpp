@@ -271,18 +271,9 @@ void Joint::render_transformation( const Motion::frame_data & data, const Motion
 	std::vector< Joint * >::iterator it_sub;
 
 	glm::vec3 origin(0.0,0.0,0.0);
-	if ( subjoints.size() == 1 ) {
-		render_bone(origin, (*subjoints.begin())->get_offset() );
-	} else {
 
-		glm::vec3 center = get_center();
-
-		render_bone(origin,center);
-
-
-		for( it_sub = subjoints.begin() ; it_sub != subjoints.end() ; it_sub++ ) {
-			render_bone( center,  (*it_sub)->get_offset() );
-		}
+	for( it_sub = subjoints.begin() ; it_sub != subjoints.end() ; it_sub++ ) {
+		render_bone( origin,  (*it_sub)->get_offset() );
 	}
 	
 
@@ -303,21 +294,12 @@ void Joint::get_bones(std::vector< std::pair< glm::vec3, glm::vec3 > > &vb, glm:
 	//if ( !is_root )  {
 	//	base += this->o;
 	//}
-	
-	if ( subjoints.size() == 1 ) {
-		vb.push_back(std::pair< glm::vec3, glm::vec3 >( base, base + (*subjoints.begin())->get_offset() ) );
-		(*subjoints.begin())->get_bones( vb, base + (*subjoints.begin())->get_offset() );
-	} else {
 
-		glm::vec3 actual_center = this->o + get_center();
 
-		vb.push_back( std::pair< glm::vec3, glm::vec3 >(base,actual_center) );
-
-		std::vector< Joint * >::const_iterator it_sub;
-		for( it_sub = subjoints.begin() ; it_sub != subjoints.end() ; it_sub++ ) {
-			vb.push_back( std::pair< glm::vec3, glm::vec3 >(actual_center,actual_center + (*it_sub)->get_offset()) );
-			(*it_sub)->get_bones(vb,actual_center + (*it_sub)->get_offset());
-		}
+	std::vector< Joint * >::const_iterator it_sub;
+	for( it_sub = subjoints.begin() ; it_sub != subjoints.end() ; it_sub++ ) {
+		vb.push_back( std::pair< glm::vec3, glm::vec3 >(base,base + (*it_sub)->get_offset()) );
+		(*it_sub)->get_bones(vb,base + (*it_sub)->get_offset());
 	}
 
 
